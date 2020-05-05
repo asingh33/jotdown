@@ -11,29 +11,49 @@ import PDFKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var naviBarItem: UINavigationItem!
-    var pdfView: PDFView!
+    var pdfDocView: PDFDocView!
+    var pdfDocThumbNailView: PDFDocThumbNailView!
+    var navigationBar: UINavigationBar!
+    var naviBarItem: UINavigationItem = UINavigationItem(title: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        pdfView = PDFView(frame: self.view.frame)
-        //pdfView.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
-        self.view.addSubview(pdfView)
-        pdfView.backgroundColor = UIColor.systemGray2
+    }
+    
+    override func viewWillLayoutSubviews() {
+        let width = self.view.frame.width
+        let height = self.view.frame.height
+        navigationBar = UINavigationBar(frame: CGRect(x: self.view.safeAreaInsets.left, y: self.view.safeAreaInsets.top, width: width, height: 54))
+        view.addSubview(navigationBar);
+
+        let doneBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.organize, target: nil, action: #selector(loadPDFFile))
+    
+        naviBarItem.leftBarButtonItem = doneBtn
+        navigationBar.setItems([naviBarItem], animated: false)
+        //navigationBar.backgroundColor = UIColor.clear
+        navigationBar.barStyle = UIBarStyle.black
+        
+        //Add PDFView and PDFThumbNailView
+        pdfDocView = PDFDocView(width: width, height : height)
+        view.addSubview(pdfDocView.pdfView)
+        
+        pdfDocThumbNailView = PDFDocThumbNailView()
+        view.addSubview(pdfDocThumbNailView.thumbnailView)
+        
+        pdfDocThumbNailView.thumbnailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        pdfDocThumbNailView.thumbnailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        pdfDocThumbNailView.thumbnailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        pdfDocThumbNailView.thumbnailView.pdfView = pdfDocView.pdfView
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         loadPDFFile()
     }
-
-    @IBAction func loadFile(_ sender: Any) {
-        loadPDFFile()
-    }
     
-    func loadPDFFile(){
+    @objc func loadPDFFile(){
         
         let picker = DocumentPickerViewController(
             supportedTypes: ["com.adobe.pdf"],//["public.text"],
@@ -45,9 +65,9 @@ class ViewController: UIViewController {
                 let count = name.count
                 //print(count)
                 //print(name[count-1])
-                self.naviBarItem.title = String(name[count - 1])
+                self.navigationItem.title = String(name[count - 1])
                 if let document = PDFDocument(url: url){
-                    self.pdfView.document = document
+                    self.pdfDocView.pdfView.document = document
                 }
                 
             },
