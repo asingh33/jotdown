@@ -1,5 +1,5 @@
 //
-//  DocumentPicker.swift
+//  LoadFile.swift
 //  jotdown
 //
 //  Created by ABHISHEK SINGH on 04/05/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DocumentPickerViewController: UIDocumentPickerViewController {
+class LoadFileViewController: UIDocumentPickerViewController {
     private let onDismiss: () -> Void
     private let onPick: (URL) -> ()
 
@@ -29,7 +29,7 @@ class DocumentPickerViewController: UIDocumentPickerViewController {
     }
 }
 
-extension DocumentPickerViewController: UIDocumentPickerDelegate {
+extension LoadFileViewController: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         onPick(urls.first!)
         

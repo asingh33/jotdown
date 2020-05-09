@@ -10,49 +10,69 @@ import UIKit
 import PDFKit
 
 class ViewController: UIViewController, PDFDocumentDelegate {
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    //@IBOutlet weak var layoutView: UIView!
     
-    var pdfDocView: PDFDocView!
+    //var pdfDocView: PDFDocView!
+    var pdfView : PDFView!
+    var pdfDocView : PDFDocView!
     var pdfDocThumbNailView: PDFDocThumbNailView!
-    var navigationBar: UINavigationBar!
+    //var navigationBar: UINavigationBar!
     var naviBarItem: UINavigationItem = UINavigationItem(title: "")
-    var pdfRenderer : PDFRenderer!
+    //var pdfRenderer : PDFRenderer!
     var fileName : URL!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-    }
-    
-    override func viewWillLayoutSubviews() {
         setup()
     }
     
+    override func viewWillLayoutSubviews() {
+        //setup()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         loadPDFFile()
     }
+    
+    
     
     private func setup(){
         let width = self.view.frame.width
         let height = self.view.frame.height
-        navigationBar = UINavigationBar(frame: CGRect(x: self.view.safeAreaInsets.left, y: self.view.safeAreaInsets.top, width: width, height: 54))
-        view.addSubview(navigationBar);
+//        navigationBar = UINavigationBar(frame: CGRect(x: self.view.safeAreaInsets.left, y: self.view.safeAreaInsets.top + 20, width: width, height: 30))
+        
 
         let loadFileBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.organize, target: nil, action: #selector(loadPDFFile))
         
-        pdfRenderer = PDFRenderer()
-        
         let renderBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.action, target: nil, action: #selector(saveFile))
-    
+        
+        let pencilBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: nil, action: #selector(toggleDraw))
+        
+        //naviBarItem.leftBarButtonItem = pencilBtn
+        naviBarItem.leftBarButtonItems = [loadFileBtn, pencilBtn]
         naviBarItem.rightBarButtonItem = renderBtn
-        naviBarItem.leftBarButtonItem = loadFileBtn
+        //naviBarItem.leftBarButtonItem = loadFileBtn
+        //naviBarItem.hidesBackButton = false
         navigationBar.setItems([naviBarItem], animated: false)
-        //navigationBar.backgroundColor = UIColor.clear
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationBar.titleTextAttributes = textAttributes
+        //navigationBar.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.4)
         navigationBar.barStyle = UIBarStyle.black
+        view.addSubview(navigationBar);
         
         //Add PDFView and PDFThumbNailView
-        pdfDocView = PDFDocView(width: width, height : height)
-        view.addSubview(pdfDocView.pdfView)
+        pdfDocView = PDFDocView()
+        pdfView = pdfDocView.pdfView
+        view.addSubview(pdfView)
+        
+        pdfView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        pdfView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        pdfView.topAnchor.constraint(equalTo: self.navigationBar.bottomAnchor).isActive = true
+        pdfView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
         
         pdfDocThumbNailView = PDFDocThumbNailView()
         view.addSubview(pdfDocThumbNailView.thumbnailView)
@@ -60,7 +80,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         pdfDocThumbNailView.thumbnailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         pdfDocThumbNailView.thumbnailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         pdfDocThumbNailView.thumbnailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        pdfDocThumbNailView.thumbnailView.pdfView = pdfDocView.pdfView
+        pdfDocThumbNailView.thumbnailView.pdfView = pdfView
         
         // For MenuItem setup
         let menuController: UIMenuController = UIMenuController.shared
@@ -73,48 +93,50 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     
     
     @objc func highlightFromMenuItem() {
-        if let document = self.pdfDocView.pdfView.document  {
+        if let document = self.pdfView.document  {
            let pdfSelection : PDFSelection = PDFSelection(document: document)
-           pdfSelection.add((self.pdfDocView.pdfView?.currentSelection)!)
-           let arrayByLines = self.pdfDocView.pdfView?.currentSelection?.selectionsByLine()
+            pdfSelection.add((self.pdfView?.currentSelection)!)
+           let arrayByLines = self.pdfView?.currentSelection?.selectionsByLine()
                arrayByLines?.forEach({ (selection) in
-                let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfDocView.pdfView?.currentPage)!), forType: .highlight, withProperties: nil)
+                let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfView?.currentPage)!), forType: .highlight, withProperties: nil)
                    annotation.color = .yellow
-                   self.pdfDocView.pdfView?.currentPage?.addAnnotation(annotation)
+                   self.pdfView?.currentPage?.addAnnotation(annotation)
                })
             }
     }
+    
     @objc func underlineFromMenuItem() {
-        if let document = self.pdfDocView.pdfView.document  {
+        if let document = self.pdfView.document  {
            let pdfSelection : PDFSelection = PDFSelection(document: document)
-           pdfSelection.add((self.pdfDocView.pdfView?.currentSelection)!)
-           let arrayByLines = self.pdfDocView.pdfView?.currentSelection?.selectionsByLine()
+           pdfSelection.add((self.pdfView?.currentSelection)!)
+           let arrayByLines = self.pdfView?.currentSelection?.selectionsByLine()
                arrayByLines?.forEach({ (selection) in
-                let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfDocView.pdfView?.currentPage)!), forType: .underline, withProperties: nil)
+                let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfView?.currentPage)!), forType: .underline, withProperties: nil)
                    annotation.color = .green
-                   self.pdfDocView.pdfView?.currentPage?.addAnnotation(annotation)
+                self.pdfView?.currentPage?.addAnnotation(annotation)
                })
             }
     }
+    
     @objc func strikeoutFromMenuItem() {
-        if let document = self.pdfDocView.pdfView.document  {
+        if let document = self.pdfView.document  {
            let pdfSelection : PDFSelection = PDFSelection(document: document)
-           pdfSelection.add((self.pdfDocView.pdfView?.currentSelection)!)
-           let arrayByLines = self.pdfDocView.pdfView?.currentSelection?.selectionsByLine()
+           pdfSelection.add((self.pdfView?.currentSelection)!)
+           let arrayByLines = self.pdfView?.currentSelection?.selectionsByLine()
                arrayByLines?.forEach({ (selection) in
-                let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfDocView.pdfView?.currentPage)!), forType: .strikeOut, withProperties: nil)
+                let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfView?.currentPage)!), forType: .strikeOut, withProperties: nil)
                    annotation.color = .blue
-                   self.pdfDocView.pdfView?.currentPage?.addAnnotation(annotation)
+                   self.pdfView?.currentPage?.addAnnotation(annotation)
                })
             }
     }
     
     @objc func loadPDFFile(){
-        let picker = DocumentPickerViewController(
+        let picker = LoadFileViewController(
             supportedTypes: ["com.adobe.pdf"],//["public.text"],
             onPick: { url in
                 print("url : \(url)")
-                self.pdfRenderer.outputFileURL = url
+                //self.pdfRenderer.outputFileURL = url
                 self.fileName = url
                 
                 //var filePath : String = "/name.pdf"
@@ -123,12 +145,11 @@ class ViewController: UIViewController, PDFDocumentDelegate {
                 let count = name.count
                 //print(count)
                 //print(name[count-1])
-                self.navigationItem.title = String(name[count - 1])
+                self.naviBarItem.title = String(name[count - 1])
+                
                 if let document = PDFDocument(url: url){
                     //document.delegate = self
-                    self.pdfDocView.pdfView.document = document
-                    //self.pdfDocView.pdfView.documentView?.backgroundColor = UIColor.red
-                    
+                    self.pdfView.document = document
                 }
                 
             },
@@ -137,20 +158,34 @@ class ViewController: UIViewController, PDFDocumentDelegate {
             }
         )
         
-        //picker.modalPresentationStyle = .
+        //picker.modalPresentationStyle = .fullScreen
         picker.modalTransitionStyle = .coverVertical
         UIApplication.shared.windows.first?.rootViewController?.present(picker, animated: true)
     }
     
     @objc func saveFile(){
-        self.pdfDocView.pdfView.document?.write(to: self.fileName)
+        self.pdfView.document?.write(to: self.fileName)
     }
     
-    func classForPage() -> AnyClass {
-        
-        return Watermark.self
-        
+    @objc func toggleDraw(){
+        self.pdfDocView.changeDrawMode()
     }
+    
+//    func classForPage() -> AnyClass {
+//
+//        //return Watermark.self
+//
+//        return Ink.self
+//
+//    }
+//    func `class`(forAnnotationType annotationType: String) -> AnyClass {
+//        //print(annotationType)
+//        if annotationType == "Ink" {
+//            return Ink.self
+//        } else {
+//            return PDFAnnotation.self
+//        }
+//    }
 
 }
 
