@@ -48,6 +48,14 @@ class PDFDocView {
         pdfDrawingGestureRecognizer.toggleDraw = !pdfDrawingGestureRecognizer.toggleDraw
     }
     
+    func setColor(color: UIColor){
+        //self.color = color
+        pdfDrawer.setColor(color: color)
+    }
+    func setWidth(width : CGFloat){
+        pdfDrawer.setWidth(width: width)
+    }
+    
         
 }
 
@@ -86,8 +94,17 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     private var path: UIBezierPath?
     private var allpath: UIBezierPath?
     private var inkAnnotation : Ink?
+    private var color : UIColor?
+    private var width : CGFloat?
     //private var currentPage: PDFPage?
-
+    var pageMap: [PDFPage : UIBezierPath] = [:]
+    
+    func setColor(color: UIColor){
+        self.color = color
+    }
+    func setWidth(width : CGFloat){
+        self.width = width
+    }
     
     func gestureRecognizerBegan(_ location: CGPoint) {
         //print("PDFDrawer: Begin - \(location)")
@@ -98,14 +115,22 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
         //let point = CGRect(origin: location, size: size)
         let inPagePoint = pdfView.convert(location, to: currentpage)
         
-        if(path == nil){
+        if(pageMap[currentpage] == nil){
             path = UIBezierPath()
+            pageMap[currentpage] = path
+            print("in page - \(currentpage)")
             
+        }
+        else{
+            path = pageMap[currentpage]
         }
         path?.move(to: inPagePoint)
         if(inkAnnotation == nil){
             inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
         }
+    
+        inkAnnotation?.setStencilColor(color: color ?? UIColor.black)
+        inkAnnotation?.setStencilWidth(width: width ?? 2)
         inkAnnotation?.path = path
         currentpage.addAnnotation(inkAnnotation!)
     }
@@ -150,11 +175,12 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
        //currentpage.addAnnotation(inkAnnotation!)
         //inkAnnotation = nil
         //path = nil
-        if(allpath == nil){
-            allpath = UIBezierPath()
-        }
-        allpath?.append(path!)
+//        if(allpath == nil){
+//            allpath = UIBezierPath()
+//        }
+//        allpath?.append(path!)
         //path = nil
+        pageMap[currentpage] = path
     }
     
   
@@ -162,6 +188,16 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
 
 class Ink: PDFAnnotation{
     var path: UIBezierPath!
+    var stencilColor: UIColor = UIColor.black
+    var stencilWidth: CGFloat = 2
+    
+    func setStencilColor(color: UIColor){
+        stencilColor = color
+    }
+    func setStencilWidth(width: CGFloat){
+        stencilWidth = width
+    }
+    
     
     override func draw(with box: PDFDisplayBox, in context: CGContext) {
         if( path == nil){
@@ -178,14 +214,15 @@ class Ink: PDFAnnotation{
         context.saveGState()
         
         //let path = UIBezierPath()
-        localPath.lineWidth = 10
+        localPath.lineWidth = stencilWidth
         //context.beginPath()
         localPath.lineJoinStyle = .round
         localPath.lineCapStyle = .round
         //path.move(to: CGPoint(x: bounds.minX + startPoint.x, y: bounds.minY + startPoint.y))
         //path.addLine(to: CGPoint(x: bounds.minX + endPoint.x, y: bounds.minY + endPoint.y))
         //UIColor.systemTeal.setFill()
-        UIColor.systemBlue.setStroke()
+        //UIColor.systemBlue.setStroke()
+        stencilColor.setStroke()
         localPath.stroke(with: CGBlendMode.sourceOut, alpha: 0.4)
         
         //localPath.usesEvenOddFillRule = true

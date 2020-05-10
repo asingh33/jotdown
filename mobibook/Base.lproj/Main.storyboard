@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="ipad12_9" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,31 +12,152 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="mobibook" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84p-6H-Qb0">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="50"/>
                                 <items>
                                     <navigationItem title="Title" id="E6c-WU-gMG"/>
                                 </items>
                             </navigationBar>
+                            <view alpha="0.90000000000000002" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tb8-h1-tTo">
+                                <rect key="frame" x="366" y="240" width="83" height="544"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Pd-8m-W0N">
+                                        <rect key="frame" x="13" y="33.5" width="57" height="47"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <size key="titleShadowOffset" width="0.0" height="10"/>
+                                        <state key="normal" backgroundImage="pencil" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setPencil:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9eE-2c-Ttn"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r88-t4-TzA">
+                                        <rect key="frame" x="13" y="91" width="57" height="49"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <state key="normal" backgroundImage="pencil.tip" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setMarker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MuS-dC-4Rj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZl-xJ-Uwi">
+                                        <rect key="frame" x="19" y="161.5" width="45" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setWhiteColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kRn-Du-ma3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93x-09-bDP">
+                                        <rect key="frame" x="19" y="214.5" width="45" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setBlueColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eMw-zM-Nq6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUy-NY-dHA">
+                                        <rect key="frame" x="19" y="267.5" width="45" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setBlackColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ATV-oe-ifv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YB2-iY-chf">
+                                        <rect key="frame" x="19" y="320.5" width="45" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setOrangeColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DwX-Pq-Ztw"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Lw-vs-aAJ">
+                                        <rect key="frame" x="19" y="373.5" width="45" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setRedColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uso-oc-a5F"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OBP-Hf-HKD">
+                                        <rect key="frame" x="19" y="426.5" width="45" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setPurpleColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TxL-Ts-LYu"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5wU-UU-Jde">
+                                        <rect key="frame" x="19" y="479.5" width="45" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="setGreenColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bcC-Ya-mvC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="83" id="adl-ei-bQJ"/>
+                                    <constraint firstAttribute="height" constant="544" id="nXI-Bs-s0c"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="84p-6H-Qb0" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="6Fi-ZS-Int"/>
                             <constraint firstItem="84p-6H-Qb0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="URC-Zt-8r3"/>
                             <constraint firstItem="84p-6H-Qb0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Yzz-Cc-2UO"/>
+                            <constraint firstItem="Tb8-h1-tTo" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="pcm-dW-thm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="floatingBarView" destination="Tb8-h1-tTo" id="Q3h-M2-djM"/>
+                        <outlet property="markerBtn" destination="r88-t4-TzA" id="kfK-dW-9vp"/>
                         <outlet property="navigationBar" destination="84p-6H-Qb0" id="gSH-Qc-eDm"/>
+                        <outlet property="pencilBtn" destination="9Pd-8m-W0N" id="Avr-GQ-PMe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="135.9375" y="71.484375"/>
+            <point key="canvasLocation" x="135.9375" y="70.8984375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="pencil.tip" catalog="system" width="99" height="128"/>
+    </resources>
 </document>

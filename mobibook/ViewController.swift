@@ -12,12 +12,20 @@ import PDFKit
 class ViewController: UIViewController, PDFDocumentDelegate {
     @IBOutlet weak var navigationBar: UINavigationBar!
     //@IBOutlet weak var layoutView: UIView!
+    @IBOutlet weak var floatingBarView: UIView!
+    @IBOutlet weak var pencilBtn: UIButton!
+    @IBOutlet weak var markerBtn: UIButton!
+    var stencilBtn : UIBarButtonItem!
+    
+    let radius: CGFloat = 20
+    let borderWidth: CGFloat = 2
+    var bToggle = false  // default pencil
+    var cToggle = false
     
     //var pdfDocView: PDFDocView!
     var pdfView : PDFView!
     var pdfDocView : PDFDocView!
     var pdfDocThumbNailView: PDFDocThumbNailView!
-    //var navigationBar: UINavigationBar!
     var naviBarItem: UINavigationItem = UINavigationItem(title: "")
     //var pdfRenderer : PDFRenderer!
     var fileName : URL!
@@ -42,24 +50,19 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     private func setup(){
         let width = self.view.frame.width
         let height = self.view.frame.height
-//        navigationBar = UINavigationBar(frame: CGRect(x: self.view.safeAreaInsets.left, y: self.view.safeAreaInsets.top + 20, width: width, height: 30))
-        
 
         let loadFileBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.organize, target: nil, action: #selector(loadPDFFile))
         
         let renderBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.action, target: nil, action: #selector(saveFile))
         
-        let pencilBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: nil, action: #selector(toggleDraw))
+        stencilBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: nil, action: #selector(toggleDraw))
         
-        //naviBarItem.leftBarButtonItem = pencilBtn
-        naviBarItem.leftBarButtonItems = [loadFileBtn, pencilBtn]
+        naviBarItem.leftBarButtonItems = [loadFileBtn, stencilBtn]
         naviBarItem.rightBarButtonItem = renderBtn
-        //naviBarItem.leftBarButtonItem = loadFileBtn
-        //naviBarItem.hidesBackButton = false
+        
         navigationBar.setItems([naviBarItem], animated: false)
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationBar.titleTextAttributes = textAttributes
-        //navigationBar.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.4)
         navigationBar.barStyle = UIBarStyle.black
         view.addSubview(navigationBar);
         
@@ -73,6 +76,14 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         pdfView.topAnchor.constraint(equalTo: self.navigationBar.bottomAnchor).isActive = true
         pdfView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
+        //self.floatingBarView.layer.zPosition = 1
+        floatingBarView.isHidden = true
+        self.view.bringSubviewToFront(floatingBarView)
+        self.floatingBarView.layer.cornerRadius = 30
+        self.floatingBarView.layer.borderWidth = 5
+        floatingBarView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        //self.floatingBarView.layer.borderColor = CGColor(
+        //view.addSubview(FloatingBarView)
         
         pdfDocThumbNailView = PDFDocThumbNailView()
         view.addSubview(pdfDocThumbNailView.thumbnailView)
@@ -163,15 +174,98 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         UIApplication.shared.windows.first?.rootViewController?.present(picker, animated: true)
     }
     
+    private func toggleStencilState(){
+        
+        //set pencil
+        pencilBtn.tintColor = bToggle ? UIColor.systemYellow : UIColor.systemGray
+        //set marker
+        markerBtn.tintColor = bToggle ? UIColor.systemGray : UIColor.systemYellow
+        
+        if(bToggle == true){
+            pdfDocView.setWidth(width: 2)
+        }else{
+            pdfDocView.setWidth(width: 10)
+        }
+        
+    }
+    
+    private func toggleColorState(sender: UIButton, color: UIColor){
+        
+        pdfDocView.setColor(color: color)
+        
+        if(cToggle){
+            sender.layer.cornerRadius = radius
+            sender.layer.borderWidth = borderWidth
+            sender.layer.borderColor = UIColor.yellow.cgColor
+        }else{
+            sender.layer.cornerRadius = radius
+            sender.layer.borderWidth = borderWidth
+            sender.layer.borderColor = UIColor.yellow.withAlphaComponent(0).cgColor
+        }
+    }
+    
+    
     @objc func saveFile(){
         self.pdfView.document?.write(to: self.fileName)
     }
     
     @objc func toggleDraw(){
+        if(stencilBtn.tintColor != UIColor.systemYellow){
+            stencilBtn.tintColor = UIColor.systemYellow
+            floatingBarView.isHidden = false
+        }else{
+            stencilBtn.tintColor = UIColor.systemBlue
+            floatingBarView.isHidden = true
+        }
         self.pdfDocView.changeDrawMode()
     }
     
-//    func classForPage() -> AnyClass {
+    @IBAction func setPencil(_ sender: UIButton) {
+        bToggle = true
+        toggleStencilState()
+    }
+    
+    @IBAction func setMarker(_ sender: UIButton) {
+        bToggle = false
+        toggleStencilState()
+    }
+    
+    @IBAction func setWhiteColor(_ sender: UIButton) {
+        cToggle = !cToggle
+        toggleColorState(sender: sender, color: UIColor.white)
+    }
+    
+    @IBAction func setBlueColor(_ sender: UIButton) {
+        cToggle = !cToggle
+        toggleColorState(sender: sender, color: UIColor.blue)
+    }
+    
+    @IBAction func setBlackColor(_ sender: UIButton) {
+        cToggle = !cToggle
+        toggleColorState(sender: sender, color: UIColor.black)
+    }
+    @IBAction func setOrangeColor(_ sender: UIButton) {
+        cToggle = !cToggle
+        toggleColorState(sender: sender, color: UIColor.orange)
+    }
+    @IBAction func setRedColor(_ sender: UIButton) {
+        cToggle = !cToggle
+        toggleColorState(sender: sender, color: UIColor.red)
+    }
+    @IBAction func setPurpleColor(_ sender: UIButton) {
+        cToggle = !cToggle
+        toggleColorState(sender: sender, color: UIColor.purple)
+    }
+    @IBAction func setGreenColor(_ sender: UIButton) {
+        cToggle = !cToggle
+        toggleColorState(sender: sender, color: UIColor.green)
+    }
+    
+    
+    
+    
+    
+    //    func classForPage() -> AnyClass {
 //
 //        //return Watermark.self
 //
