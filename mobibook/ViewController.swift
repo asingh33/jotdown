@@ -23,6 +23,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     var cToggle = false
     
     //var pdfDocView: PDFDocView!
+    var document : UIDocument!
     var pdfView : PDFView!
     var pdfDocView : PDFDocView!
     var pdfDocThumbNailView: PDFDocThumbNailView!
@@ -34,6 +35,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         super.viewDidLoad()
         
         setup()
+        loadPDFFile()
     }
     
     override func viewWillLayoutSubviews() {
@@ -42,16 +44,16 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadPDFFile()
+        //loadPDFFile()
     }
     
     
     
     private func setup(){
-        let width = self.view.frame.width
-        let height = self.view.frame.height
+        //let width = self.view.frame.width
+        //let height = self.view.frame.height
 
-        let loadFileBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.organize, target: nil, action: #selector(loadPDFFile))
+        let loadFileBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.organize, target: nil, action: #selector(Close))
         
         let renderBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.action, target: nil, action: #selector(saveFile))
         
@@ -142,36 +144,61 @@ class ViewController: UIViewController, PDFDocumentDelegate {
             }
     }
     
-    @objc func loadPDFFile(){
-        let picker = LoadFileViewController(
-            supportedTypes: ["com.adobe.pdf"],//["public.text"],
-            onPick: { url in
-                print("url : \(url)")
-                //self.pdfRenderer.outputFileURL = url
-                self.fileName = url
-                
-                //var filePath : String = "/name.pdf"
-                let filePath = url.absoluteString
-                let name = filePath.split(separator: "/")
-                let count = name.count
-                //print(count)
-                //print(name[count-1])
-                self.naviBarItem.title = String(name[count - 1])
-                
-                if let document = PDFDocument(url: url){
+    func loadPDFFile(){
+        // Access the document
+        document?.open(completionHandler: { (success) in
+            if success {
+                // Display the content of the document, e.g.:
+                //self.documentNameLabel.text = self.document?.fileURL.lastPathComponent
+                if let doc = PDFDocument(url: (self.document?.fileURL.absoluteURL)!){
+                    print("Loading document")
                     //document.delegate = self
-                    self.pdfView.document = document
+                    self.pdfView.document = doc
                 }
-                
-            },
-            onDismiss: {
-                print("dismiss")
+                else{
+                    print("Unable to load")
+                }
+            } else {
+                // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
             }
-        )
+        })
+    }
+    
+    
+    @objc func Close(){
+        dismiss(animated: true) {
+                   self.document?.close(completionHandler: nil)
+               }
         
-        //picker.modalPresentationStyle = .fullScreen
-        picker.modalTransitionStyle = .coverVertical
-        UIApplication.shared.windows.first?.rootViewController?.present(picker, animated: true)
+//        let picker = LoadFileViewController(
+//            supportedTypes: ["com.adobe.pdf"],//["public.text"],
+//            onPick: { url in
+//                print("url : \(url)")
+//                //self.pdfRenderer.outputFileURL = url
+//                self.fileName = url
+//
+//                //var filePath : String = "/name.pdf"
+//                let filePath = url.absoluteString
+//                let name = filePath.split(separator: "/")
+//                let count = name.count
+//                //print(count)
+//                //print(name[count-1])
+//                self.naviBarItem.title = String(name[count - 1])
+//
+//                if let document = PDFDocument(url: url){
+//                    //document.delegate = self
+//                    self.pdfView.document = document
+//                }
+//
+//            },
+//            onDismiss: {
+//                print("dismiss")
+//            }
+//        )
+//
+//        //picker.modalPresentationStyle = .fullScreen
+//        picker.modalTransitionStyle = .coverVertical
+//        UIApplication.shared.windows.first?.rootViewController?.present(picker, animated: true)
     }
     
     private func toggleStencilState(){
