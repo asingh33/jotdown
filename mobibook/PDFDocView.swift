@@ -117,19 +117,33 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
         //let point = CGRect(origin: location, size: size)
         let inPagePoint = pdfView.convert(location, to: currentpage)
         
+        //path = UIBezierPath()
         print("inkMap length - \(inkMap.count)")
-        if(inkMap[currentpage.label!] == nil){
-            path = UIBezierPath()
-            inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
-            pathMap[currentpage.label!] = path!
-            inkMap[currentpage.label!] = inkAnnotation!
-            print("in page - \(currentpage.label!)")
-            
-        }
-        else{
-            inkAnnotation = inkMap[currentpage.label!]
-            path = pathMap[currentpage.label!]
-        }
+        path = UIBezierPath()
+        inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
+        pathMap[currentpage.label!] = path!
+        inkMap[currentpage.label!] = inkAnnotation!
+        
+//        if(inkMap[currentpage.label!] == nil){
+//            path = UIBezierPath()
+//            inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
+//            pathMap[currentpage.label!] = path!
+//            inkMap[currentpage.label!] = inkAnnotation!
+//            print("in page - \(currentpage.label!)")
+//
+//        }
+//        else{
+//            //For a changed StencilWidth OR StencilColor, create new annotation and path
+//            if(inkAnnotation?.getStencilColor() != color || inkAnnotation?.getStencilWidth() != width){
+//                print("in page - \(currentpage.label!), created new Annotation")
+//                path = UIBezierPath()
+//                inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
+//                pathMap[currentpage.label!] = path!
+//                inkMap[currentpage.label!] = inkAnnotation!
+//            }
+//            inkAnnotation = inkMap[currentpage.label!]
+//            path = pathMap[currentpage.label!]
+//        }
         
         path?.move(to: inPagePoint)
 //        if(inkAnnotation == nil){
@@ -205,7 +219,12 @@ class Ink: PDFAnnotation{
     func setStencilWidth(width: CGFloat){
         stencilWidth = width
     }
-    
+    func getStencilColor() -> UIColor {
+        return stencilColor
+    }
+    func getStencilWidth() -> CGFloat{
+        return stencilWidth
+    }
     
     override func draw(with box: PDFDisplayBox, in context: CGContext) {
         if( path == nil){
