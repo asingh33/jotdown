@@ -35,6 +35,7 @@ class PDFDocView {
         self.pdfView.translatesAutoresizingMaskIntoConstraints = false
         self.pdfView.autoScales = true
         self.pdfView.usePageViewController(true)
+        self.pdfView.maxScaleFactor = 0.8
         
         self.pdfView.addGestureRecognizer(pdfDrawingGestureRecognizer)
         pdfDrawingGestureRecognizer.drawingDelegate = pdfDrawer
@@ -114,11 +115,13 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
         //if let document = pdfView.document
         
         guard let currentpage = pdfView.currentPage else {return}
+        
+        //print("page contents: - \n\(currentpage.string?.unicodeScalars)")
         //let point = CGRect(origin: location, size: size)
         let inPagePoint = pdfView.convert(location, to: currentpage)
         
         //path = UIBezierPath()
-        print("inkMap length - \(inkMap.count)")
+        //print("inkMap length - \(inkMap.count)")
         path = UIBezierPath()
         inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
         pathMap[currentpage.label!] = path!
