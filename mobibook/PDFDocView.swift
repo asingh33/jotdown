@@ -96,9 +96,9 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     private var path: UIBezierPath?
     private var allpath: UIBezierPath?
     private var inkAnnotation : Ink?
-    private var color : UIColor?
-    private var width : CGFloat?
-    //private var currentPage: PDFPage?
+    private var color : UIColor = UIColor.black
+    private var width : CGFloat = 2
+    private var currentpage: PDFPage?
     var pathMap : [ String: UIBezierPath] = [:]
     var inkMap: [String : Ink] = [:]
     
@@ -110,105 +110,66 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     }
     
     func gestureRecognizerBegan(_ location: CGPoint) {
-        //print("PDFDrawer: Begin - \(location)")
-        //let size = CGSize(width: 10, height: 10)
-        //if let document = pdfView.document
         
-        guard let currentpage = pdfView.currentPage else {return}
+        currentpage = pdfView.currentPage
+        let inPagePoint = pdfView.convert(location, to: currentpage!)
         
-        //print("page contents: - \n\(currentpage.string?.unicodeScalars)")
-        //let point = CGRect(origin: location, size: size)
-        let inPagePoint = pdfView.convert(location, to: currentpage)
+        // More realistic color effect but memory consuming
+//        path = UIBezierPath()
+//        inkAnnotation = Ink(bounds: (currentpage?.bounds(for: pdfView.displayBox))!, forType: PDFAnnotationSubtype.ink, withProperties: nil)
+//        pathMap[(currentpage?.label)!] = path!
+//        inkMap[(currentpage?.label)!] = inkAnnotation!
         
-        //path = UIBezierPath()
-        //print("inkMap length - \(inkMap.count)")
-        path = UIBezierPath()
-        inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
-        pathMap[currentpage.label!] = path!
-        inkMap[currentpage.label!] = inkAnnotation!
-        
-//        if(inkMap[currentpage.label!] == nil){
-//            path = UIBezierPath()
-//            inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
-//            pathMap[currentpage.label!] = path!
-//            inkMap[currentpage.label!] = inkAnnotation!
-//            print("in page - \(currentpage.label!)")
-//
-//        }
-//        else{
-//            //For a changed StencilWidth OR StencilColor, create new annotation and path
-//            if(inkAnnotation?.getStencilColor() != color || inkAnnotation?.getStencilWidth() != width){
-//                print("in page - \(currentpage.label!), created new Annotation")
-//                path = UIBezierPath()
-//                inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
-//                pathMap[currentpage.label!] = path!
-//                inkMap[currentpage.label!] = inkAnnotation!
-//            }
-//            inkAnnotation = inkMap[currentpage.label!]
-//            path = pathMap[currentpage.label!]
-//        }
+        if(inkMap[(currentpage?.label)!] == nil){
+            path = UIBezierPath()
+            inkAnnotation = Ink(bounds: (currentpage?.bounds(for: pdfView.displayBox))!, forType: PDFAnnotationSubtype.ink, withProperties: nil)
+            pathMap[(currentpage?.label)!] = path!
+            inkMap[(currentpage?.label)!] = inkAnnotation!
+            //print("in page - \(currentpage.label!)")
+        }
+        else{
+            //For a changed StencilWidth OR StencilColor, create new annotation and path
+            if(inkAnnotation?.getStencilColor() != color || inkAnnotation?.getStencilWidth() != width){
+                //print("in page - \(currentpage.label!), created new Annotation")
+                path = UIBezierPath()
+                inkAnnotation = Ink(bounds: (currentpage?.bounds(for: pdfView.displayBox))!, forType: PDFAnnotationSubtype.ink, withProperties: nil)
+                pathMap[(currentpage?.label)!] = path!
+                inkMap[(currentpage?.label)!] = inkAnnotation!
+            }
+            inkAnnotation = inkMap[(currentpage?.label)!]
+            path = pathMap[(currentpage?.label)!]
+        }
         
         path?.move(to: inPagePoint)
-//        if(inkAnnotation == nil){
-//            inkAnnotation = Ink(bounds: currentpage.bounds(for: pdfView.displayBox), forType: PDFAnnotationSubtype.ink, withProperties: nil)
-//        }
     
-        inkAnnotation?.setStencilColor(color: color ?? UIColor.black)
-        inkAnnotation?.setStencilWidth(width: width ?? 2)
+        inkAnnotation?.setStencilColor(color: color)
+        inkAnnotation?.setStencilWidth(width: width)
         inkAnnotation?.path = path
-        currentpage.addAnnotation(inkAnnotation!)
+        currentpage?.addAnnotation(inkAnnotation!)
     }
     
     func gestureRecognizerMoved(_ location: CGPoint) {
-        //print("Moved - \(location)")
-        //let size = CGSize(width: 10, height: 10)
-        //if let document = pdfView.document
+    
+        let inPagePoint = pdfView.convert(location, to: currentpage!)
         
-        guard let currentpage = pdfView.currentPage else {return}
-        //let point = CGRect(origin: location, size: size)
-        let inPagePoint = pdfView.convert(location, to: currentpage)
-        
-        
-        //path?.move(to: inPagePoint)
         path?.addLine(to: inPagePoint)
-        //path?.stroke()
-        
         inkAnnotation?.path = path
         
-        //currentpage.removeAnnotation(inkAnnotation!)
-        currentpage.addAnnotation(inkAnnotation!)
-    
-            
+        currentpage?.addAnnotation(inkAnnotation!)
     }
     
     func gestureRecognizerEnded(_ location: CGPoint) {
-        //print("End - \(location)")
-        guard let currentpage = pdfView.currentPage else {return}
-       //let point = CGRect(origin: location, size: size)
-       let inPagePoint = pdfView.convert(location, to: currentpage)
-       
-       
-       //path?.move(to: inPagePoint)
-       path?.addLine(to: inPagePoint)
-       
-       inkAnnotation?.path = path
-       
-        currentpage.addAnnotation(inkAnnotation!)
-       //currentpage.removeAnnotation(inkAnnotation!)
-       //currentpage.addAnnotation(inkAnnotation!)
-        //inkAnnotation = nil
-        //path = nil
-//        if(allpath == nil){
-//            allpath = UIBezierPath()
-//        }
-//        allpath?.append(path!)
-        //path = nil
-        pathMap[currentpage.label!] = path
-        inkMap[currentpage.label!] = inkAnnotation
-        path = nil
-    }
     
-  
+        let inPagePoint = pdfView.convert(location, to: currentpage!)
+        path?.addLine(to: inPagePoint)
+       
+        inkAnnotation?.path = path
+       
+        currentpage?.addAnnotation(inkAnnotation!)
+        pathMap[(currentpage?.label)!] = path
+        inkMap[(currentpage?.label)!] = inkAnnotation
+        //path = nil
+    }
 }
 
 class Ink: PDFAnnotation{
@@ -235,34 +196,22 @@ class Ink: PDFAnnotation{
         }
             
         let localPath = path.copy() as! UIBezierPath
-        
-        
+       
         super.draw(with: box, in: context)
         
         // Draw a custom purple line.
         UIGraphicsPushContext(context)
         context.saveGState()
         
-        //let path = UIBezierPath()
         localPath.lineWidth = stencilWidth
-        //context.beginPath()
         localPath.lineJoinStyle = .round
         localPath.lineCapStyle = .round
-        //path.move(to: CGPoint(x: bounds.minX + startPoint.x, y: bounds.minY + startPoint.y))
-        //path.addLine(to: CGPoint(x: bounds.minX + endPoint.x, y: bounds.minY + endPoint.y))
-        //UIColor.systemTeal.setFill()
-        //UIColor.systemBlue.setStroke()
         stencilColor.setStroke()
         localPath.stroke(with: CGBlendMode.sourceOut, alpha: 0.4)
         
         //localPath.usesEvenOddFillRule = true
-        
-        //context.addPath(self.path.mutableCopy()!)
         context.restoreGState()
         UIGraphicsPopContext()
-        //super.draw(with: box, in: context)
-        //path = nil
-        
     }
 }
 
