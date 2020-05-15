@@ -11,7 +11,6 @@ import PDFKit
 
 class ViewController: UIViewController, PDFDocumentDelegate {
     @IBOutlet weak var navigationBar: UINavigationBar!
-    //@IBOutlet weak var layoutView: UIView!
     @IBOutlet weak var floatingBarView: UIView!
     @IBOutlet weak var pencilBtn: UIButton!
     @IBOutlet weak var markerBtn: UIButton!
@@ -22,9 +21,9 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     var bToggle = false  // default pencil
     var cToggle = false
     var isFBHidden = true
+    var widthFB: CGFloat!
     var scale : CGFloat!
     var translate : CGFloat!
-    
     //var pdfDocView: PDFDocView!
     var document : UIDocument!
     var pdfView : PDFView!
@@ -42,16 +41,16 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     }
     
     override func viewWillLayoutSubviews() {
-        print("FBar X: \(self.floatingBarView.frame.maxX), width - \(self.floatingBarView.frame.maxX - self.floatingBarView.frame.minX)")
-        print("View X: \(self.view.frame.maxX)")
-        translate = (self.floatingBarView.frame.maxX > self.view.frame.maxX) ? self.floatingBarView.frame.maxX - self.view.frame.maxX + 10 : self.view.frame.maxX - self.floatingBarView.frame.maxX + 10
-        scale = self.view.frame.height/1024
-        //setup()
-        //scaleFloatingBar()
+        
+        scale = self.view.frame.height/1024 + 0.12
+        print("scale - \(scale)")
+        
         if(self.isFBHidden == false)
         {
-            animateFloatingBar(show: false)
             animateFloatingBar(show: true)
+            
+        }else{
+            animateFloatingBar(show: false)
             
         }
         
@@ -68,12 +67,13 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     fileprivate func setupFloatingBar() {
         //self.floatingBarView.layer.zPosition = 1
         //floatingBarView.isHidden = isFBHidden
+        self.floatingBarView.isHidden = false
         self.view.bringSubviewToFront(floatingBarView)
         self.floatingBarView.layer.cornerRadius = 30
         self.floatingBarView.layer.borderWidth = 5
+        self.widthFB = self.floatingBarView.frame.width
         //print("\(self.floatingBarView.frame.width) and \(self.floatingBarView.frame.height)")
-        floatingBarView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
+        //floatingBarView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
     fileprivate func scaleFloatingBar() {
@@ -91,41 +91,38 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     }
     fileprivate func animateFloatingBar(show : Bool){
     
-        translate = 90 //self.floatingBarView.frame.maxX - self.floatingBarView.frame.minX + 10
-        //scale = self.view.frame.height/1024
-        
+        //print(" before translate - \(self.floatingBarView.frame.midX), \(self.floatingBarView.frame.maxX)")
         if(show){
             self.isFBHidden = false
+            var X = self.widthFB - (self.widthFB*self.scale)
+            X = (self.scale > 1) ? X : X - 5
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
-                    self.floatingBarView.transform = CGAffineTransform(translationX: -self.translate, y: 0)
-                    self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: self.scale, y: self.scale)
+                    //self.floatingBarView.transform = CGAffineTransform(translationX: -self.translate, y: 0)
+                    //self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: self.scale, y: self.scale)
+                    self.floatingBarView.isHidden = false
+                    self.floatingBarView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+                self.floatingBarView.transform = self.floatingBarView.transform.translatedBy(x: X, y: 0)
                     
-                    //self.floatingBarView.transform = CGAffineTransform(scaleX: scale, y: scale)
-                    //self.floatingBarView.transform = self.floatingBarView.transform.translatedBy(x: -190, y: 0)
-                
             }) { (_) in
-                
-                //self.scaleFloatingBar()
-                //self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: scale, y: scale)//CGAffineTransform(scaleX: scale, y: scale)
-                print(" after translate - \(self.floatingBarView.frame.maxX)")
+                print(self.floatingBarView.frame.width)
+                print("(Show) after translate - \(self.view.safeAreaLayoutGuide.layoutFrame.maxX), \(self.floatingBarView.frame.maxX)")
             }
         }else{
             self.isFBHidden = true
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
                 
-                self.floatingBarView.transform = CGAffineTransform(translationX: self.translate, y: 0)
-                self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: self.scale, y: self.scale)
+                //self.floatingBarView.transform = CGAffineTransform(translationX: self.translate, y: 0)
+                //self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: self.scale, y: self.scale)
                 
-                //self.floatingBarView.transform = CGAffineTransform(scaleX: scale, y: scale)
-                //self.floatingBarView.transform = self.floatingBarView.transform.translatedBy(x: 0, y: 0)
-                
+                self.floatingBarView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+                self.floatingBarView.transform = self.floatingBarView.transform.translatedBy(x: 200, y: 0)
                 
             },
             completion: { (_) in
-                //self.scaleFloatingBar()
+                //self.floatingBarView.isHidden = true
                 //self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: scale, y: scale)
-                print(" after translate - \(self.floatingBarView.frame.maxX)")
+               // print("(Hide) after translate - \(self.floatingBarView.frame.midX), \(self.floatingBarView.frame.maxX)")
             })
         }
     }
@@ -160,8 +157,6 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         pdfView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         setupFloatingBar()
-        //self.floatingBarView.layer.borderColor = CGColor(
-        //view.addSubview(FloatingBarView)
         
         pdfDocThumbNailView = PDFDocThumbNailView()
         view.addSubview(pdfDocThumbNailView.thumbnailView)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sKu-UI-6bu">
-    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,7 +12,7 @@
             <objects>
                 <viewController id="sKu-UI-6bu" customClass="DocumentBrowserViewController" customModule="mobibook" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KxH-gH-rqc">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="d7j-fe-1sz"/>
@@ -27,17 +27,17 @@
             <objects>
                 <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="mobibook" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84p-6H-Qb0">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="50"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="Title" id="E6c-WU-gMG"/>
                                 </items>
                             </navigationBar>
-                            <view alpha="0.90000000000000002" contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tb8-h1-tTo">
-                                <rect key="frame" x="366" y="240" width="83" height="544"/>
+                            <view clearsContextBeforeDrawing="NO" alpha="0.88" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Tb8-h1-tTo">
+                                <rect key="frame" x="331" y="176" width="83" height="544"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Pd-8m-W0N">
                                         <rect key="frame" x="13" y="33.5" width="57" height="47"/>
@@ -152,6 +152,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="84p-6H-Qb0" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="6Fi-ZS-Int"/>
+                            <constraint firstItem="Tb8-h1-tTo" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Ove-kQ-hcQ"/>
                             <constraint firstItem="84p-6H-Qb0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="URC-Zt-8r3"/>
                             <constraint firstItem="84p-6H-Qb0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Yzz-Cc-2UO"/>
                             <constraint firstItem="Tb8-h1-tTo" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="pcm-dW-thm"/>
