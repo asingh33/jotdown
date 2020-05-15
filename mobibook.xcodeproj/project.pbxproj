@@ -17,7 +17,6 @@
 		12C3C3EE246077D40076CB20 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12C3C3EC246077D40076CB20 /* Main.storyboard */; };
 		12C3C3F0246077D60076CB20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C3C3EF246077D60076CB20 /* Assets.xcassets */; };
 		12C3C3F3246077D60076CB20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12C3C3F1246077D60076CB20 /* LaunchScreen.storyboard */; };
-		12C3C3FB2460784C0076CB20 /* LoadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C3C3FA2460784C0076CB20 /* LoadFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		12C3C3EF246077D60076CB20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		12C3C3F2246077D60076CB20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		12C3C3F4246077D60076CB20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		12C3C3FA2460784C0076CB20 /* LoadFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +77,6 @@
 				12C3C3E8246077D40076CB20 /* SceneDelegate.swift */,
 				12C3C3EA246077D40076CB20 /* ViewController.swift */,
 				12C3C3EC246077D40076CB20 /* Main.storyboard */,
-				12C3C3FA2460784C0076CB20 /* LoadFile.swift */,
 				123B3C292461A71B00C88FBB /* PDFDocView.swift */,
 				12C3C3EF246077D60076CB20 /* Assets.xcassets */,
 				12C3C3F1246077D60076CB20 /* LaunchScreen.storyboard */,
@@ -162,7 +159,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12C3C3FB2460784C0076CB20 /* LoadFile.swift in Sources */,
 				12C3C3EB246077D40076CB20 /* ViewController.swift in Sources */,
 				123B3C2A2461A71B00C88FBB /* PDFDocView.swift in Sources */,
 				12C3C3E7246077D40076CB20 /* AppDelegate.swift in Sources */,

@@ -98,15 +98,14 @@ class ViewController: UIViewController, PDFDocumentDelegate {
             self.isFBHidden = false
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
-                self.floatingBarView.transform = CGAffineTransform(translationX: -self.translate, y: 0)
-                self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: self.scale, y: self.scale)
-                
-                //self.floatingBarView.transform = CGAffineTransform(scaleX: scale, y: scale)
-                //self.floatingBarView.transform = self.floatingBarView.transform.translatedBy(x: -190, y: 0)
-                
-                
+                    self.floatingBarView.transform = CGAffineTransform(translationX: -self.translate, y: 0)
+                    self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: self.scale, y: self.scale)
+                    
+                    //self.floatingBarView.transform = CGAffineTransform(scaleX: scale, y: scale)
+                    //self.floatingBarView.transform = self.floatingBarView.transform.translatedBy(x: -190, y: 0)
                 
             }) { (_) in
+                
                 //self.scaleFloatingBar()
                 //self.floatingBarView.transform = self.floatingBarView.transform.scaledBy(x: scale, y: scale)//CGAffineTransform(scaleX: scale, y: scale)
                 print(" after translate - \(self.floatingBarView.frame.maxX)")
@@ -184,8 +183,9 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     
     @objc func highlightFromMenuItem() {
         if let document = self.pdfView.document  {
-           let pdfSelection : PDFSelection = PDFSelection(document: document)
-            pdfSelection.add((self.pdfView?.currentSelection)!)
+            let pdfSelection : PDFSelection = PDFSelection(document: document)
+            guard let currentselection = self.pdfView?.currentSelection else{return}
+            pdfSelection.add(currentselection)
             print(pdfSelection.string)
            let arrayByLines = self.pdfView?.currentSelection?.selectionsByLine()
                arrayByLines?.forEach({ (selection) in
@@ -199,7 +199,8 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     @objc func underlineFromMenuItem() {
         if let document = self.pdfView.document  {
            let pdfSelection : PDFSelection = PDFSelection(document: document)
-           pdfSelection.add((self.pdfView?.currentSelection)!)
+           guard let currentselection = self.pdfView?.currentSelection else{return}
+           pdfSelection.add(currentselection)
            let arrayByLines = self.pdfView?.currentSelection?.selectionsByLine()
                arrayByLines?.forEach({ (selection) in
                 let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfView?.currentPage)!), forType: .underline, withProperties: nil)
@@ -212,7 +213,8 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     @objc func strikeoutFromMenuItem() {
         if let document = self.pdfView.document  {
            let pdfSelection : PDFSelection = PDFSelection(document: document)
-           pdfSelection.add((self.pdfView?.currentSelection)!)
+           guard let currentselection = self.pdfView?.currentSelection else{return}
+           pdfSelection.add(currentselection)
            let arrayByLines = self.pdfView?.currentSelection?.selectionsByLine()
                arrayByLines?.forEach({ (selection) in
                 let annotation = PDFAnnotation(bounds: selection.bounds(for: (self.pdfView?.currentPage)!), forType: .strikeOut, withProperties: nil)

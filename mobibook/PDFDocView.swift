@@ -33,9 +33,9 @@ class PDFDocView {
         self.pdfView = mobiPDFView()
         self.pdfView.backgroundColor = UIColor.systemGray2
         self.pdfView.translatesAutoresizingMaskIntoConstraints = false
-        self.pdfView.autoScales = true
+        self.pdfView.autoScales = false
         self.pdfView.usePageViewController(true)
-        self.pdfView.maxScaleFactor = 0.8
+        self.pdfView.maxScaleFactor = 3
         
         self.pdfView.addGestureRecognizer(pdfDrawingGestureRecognizer)
         pdfDrawingGestureRecognizer.drawingDelegate = pdfDrawer
