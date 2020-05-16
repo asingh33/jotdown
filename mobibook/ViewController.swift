@@ -43,7 +43,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     override func viewWillLayoutSubviews() {
         
         scale = self.view.frame.height/1024 + 0.12
-        print("scale - \(scale)")
+        //print("scale - \(scale)")
         
         if(self.isFBHidden == false)
         {
@@ -91,7 +91,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     }
     fileprivate func animateFloatingBar(show : Bool){
     
-        //print(" before translate - \(self.floatingBarView.frame.midX), \(self.floatingBarView.frame.maxX)")
+        print(" before translate - \(self.floatingBarView.frame.midX), \(self.floatingBarView.frame.maxX)")
         if(show){
             self.isFBHidden = false
             var X = self.widthFB - (self.widthFB*self.scale)
@@ -105,8 +105,8 @@ class ViewController: UIViewController, PDFDocumentDelegate {
                 self.floatingBarView.transform = self.floatingBarView.transform.translatedBy(x: X, y: 0)
                     
             }) { (_) in
-                print(self.floatingBarView.frame.width)
-                print("(Show) after translate - \(self.view.safeAreaLayoutGuide.layoutFrame.maxX), \(self.floatingBarView.frame.maxX)")
+                //print(self.floatingBarView.frame.width)
+                //print("(Show) after translate - \(self.view.safeAreaLayoutGuide.layoutFrame.maxX), \(self.floatingBarView.frame.maxX)")
             }
         }else{
             self.isFBHidden = true
@@ -227,6 +227,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
                 //self.documentNameLabel.text = self.document?.fileURL.lastPathComponent
                 if let doc = PDFDocument(url: (self.document?.fileURL.absoluteURL)!){
                     print("Loading document")
+                    self.fileName = (self.document?.fileURL.absoluteURL)!
                     //document.delegate = self
                     self.pdfView.document = doc
                 }
@@ -309,6 +310,17 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     
     @objc func saveFile(){
         //self.pdfView.document?.write(to: self.fileName)
+        var saveDialog = UIAlertController(title: "Do you want to save the changes?", message: "", preferredStyle: .actionSheet)
+        let ok = UIAlertAction(title: "OK", style: .destructive) { (action) -> Void in
+            //print("Saving....")
+            self.pdfView.document?.write(to: self.fileName)
+        }
+        let cancel = UIAlertAction(title: "CANCEL", style: .cancel) { (action) -> Void in
+            //print("Cancelled")
+        }
+        saveDialog.addAction(ok)
+        saveDialog.addAction(cancel)
+        self.present(saveDialog, animated: true, completion: nil)
     }
     
     @objc func toggleDraw(){
