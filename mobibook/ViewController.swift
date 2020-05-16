@@ -15,6 +15,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     @IBOutlet weak var pencilBtn: UIButton!
     @IBOutlet weak var markerBtn: UIButton!
     var stencilBtn : UIBarButtonItem!
+    var saveBtn : UIBarButtonItem!
     
     let radius: CGFloat = 20
     let borderWidth: CGFloat = 2
@@ -133,7 +134,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
 
         let loadFileBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.organize, target: nil, action: #selector(Close))
         
-        let saveBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: nil, action: #selector(saveFile))
+        saveBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: nil, action: #selector(saveFile))
         
         stencilBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: nil, action: #selector(toggleDraw))
         
@@ -285,7 +286,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         markerBtn.tintColor = bToggle ? UIColor.black : UIColor.white
         
         if(bToggle == true){
-            pdfDocView.setWidth(width: 2)
+            pdfDocView.setWidth(width: 3)
         }else{
             pdfDocView.setWidth(width: 10)
         }
@@ -310,16 +311,28 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     
     @objc func saveFile(){
         //self.pdfView.document?.write(to: self.fileName)
-        var saveDialog = UIAlertController(title: "Do you want to save the changes?", message: "", preferredStyle: .actionSheet)
-        let ok = UIAlertAction(title: "OK", style: .destructive) { (action) -> Void in
+        let title = "Do you want to save the changes?"
+        let saveDialog = UIAlertController(title: title, message: "", preferredStyle: .actionSheet)
+        
+        let attributeString = NSMutableAttributedString(string: title)
+        let font = UIFont.boldSystemFont(ofSize: 20)
+        attributeString.addAttributes([NSAttributedString.Key.font : font], range: NSMakeRange(0, title.count))
+        
+        let ok = UIAlertAction(title: "OK", style: .default) { (action) -> Void in
             //print("Saving....")
             self.pdfView.document?.write(to: self.fileName)
         }
-        let cancel = UIAlertAction(title: "CANCEL", style: .cancel) { (action) -> Void in
-            //print("Cancelled")
-        }
+//        let cancel = UIAlertAction(title: "CANCEL", style: .cancel) { (action) -> Void in
+//            //print("Cancelled")
+//        }
         saveDialog.addAction(ok)
-        saveDialog.addAction(cancel)
+        //saveDialog.addAction(cancel)
+        saveDialog.setValue(attributeString, forKey: "attributedTitle")
+        
+        //saveDialog.popoverPresentationController?.sourceView = self.view
+        //saveDialog.popoverPresentationController?.sourceRect = self.view.frame
+        saveDialog.popoverPresentationController?.barButtonItem = self.saveBtn
+        
         self.present(saveDialog, animated: true, completion: nil)
     }
     

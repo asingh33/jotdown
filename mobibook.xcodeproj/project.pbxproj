@@ -10,6 +10,7 @@
 		12000EEF2464611000BCF88F /* MobiGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12000EEE2464611000BCF88F /* MobiGesture.swift */; };
 		120FA08A246577D900817D04 /* page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 120FA089246577D900817D04 /* page1.png */; };
 		123B3C2A2461A71B00C88FBB /* PDFDocView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123B3C292461A71B00C88FBB /* PDFDocView.swift */; };
+		124E289324705EC000F77131 /* New File.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 124E289224705EC000F77131 /* New File.pdf */; };
 		128A34BD2469D81400F4AF54 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128A34BC2469D81400F4AF54 /* DocumentBrowserViewController.swift */; };
 		12C3C3E7246077D40076CB20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C3C3E6246077D40076CB20 /* AppDelegate.swift */; };
 		12C3C3E9246077D40076CB20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C3C3E8246077D40076CB20 /* SceneDelegate.swift */; };
@@ -23,6 +24,7 @@
 		12000EEE2464611000BCF88F /* MobiGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobiGesture.swift; sourceTree = "<group>"; };
 		120FA089246577D900817D04 /* page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page1.png; sourceTree = "<group>"; };
 		123B3C292461A71B00C88FBB /* PDFDocView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFDocView.swift; sourceTree = "<group>"; };
+		124E289224705EC000F77131 /* New File.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "New File.pdf"; sourceTree = "<group>"; };
 		128A34BC2469D81400F4AF54 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
 		12C3C3E3246077D40076CB20 /* jotty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jotty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12C3C3E6246077D40076CB20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +50,7 @@
 		120FA088246577CB00817D04 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				124E289224705EC000F77131 /* New File.pdf */,
 				120FA089246577D900817D04 /* page1.png */,
 			);
 			path = images;
@@ -149,6 +152,7 @@
 				12C3C3F0246077D60076CB20 /* Assets.xcassets in Resources */,
 				120FA08A246577D900817D04 /* page1.png in Resources */,
 				12C3C3EE246077D40076CB20 /* Main.storyboard in Resources */,
+				124E289324705EC000F77131 /* New File.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +313,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N84RHW7KPM;
+				DEVELOPMENT_TEAM = 8Z98ZX92Z8;
 				INFOPLIST_FILE = mobibook/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -327,7 +331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N84RHW7KPM;
+				DEVELOPMENT_TEAM = 8Z98ZX92Z8;
 				INFOPLIST_FILE = mobibook/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

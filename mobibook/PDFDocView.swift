@@ -111,7 +111,8 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     
     func gestureRecognizerBegan(_ location: CGPoint) {
         
-        currentpage = pdfView.currentPage
+        guard let currpage  = pdfView.currentPage else {return}
+        currentpage = currpage
         let inPagePoint = pdfView.convert(location, to: currentpage!)
         
         // More realistic color effect but memory consuming
@@ -149,7 +150,8 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     }
     
     func gestureRecognizerMoved(_ location: CGPoint) {
-    
+        
+        guard currentpage != nil else{return}
         let inPagePoint = pdfView.convert(location, to: currentpage!)
         
         path?.addLine(to: inPagePoint)
@@ -160,6 +162,7 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     
     func gestureRecognizerEnded(_ location: CGPoint) {
     
+        guard currentpage != nil else{return}
         let inPagePoint = pdfView.convert(location, to: currentpage!)
         path?.addLine(to: inPagePoint)
        

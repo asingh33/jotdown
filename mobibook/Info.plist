@@ -18,7 +18,6 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.adobe.pdf</string>
-				<string>public.image</string>
 			</array>
 		</dict>
 	</array>
