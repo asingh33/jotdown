@@ -72,8 +72,8 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         self.floatingBarView.layer.cornerRadius = 30
         self.floatingBarView.layer.borderWidth = 5
         self.widthFB = self.floatingBarView.frame.width
-        //print("\(self.floatingBarView.frame.width) and \(self.floatingBarView.frame.height)")
-        //floatingBarView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        self.floatingBarView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        
     }
     
     fileprivate func scaleFloatingBar() {
@@ -133,12 +133,12 @@ class ViewController: UIViewController, PDFDocumentDelegate {
 
         let loadFileBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.organize, target: nil, action: #selector(Close))
         
-        let renderBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.action, target: nil, action: #selector(saveFile))
+        let saveBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: nil, action: #selector(saveFile))
         
         stencilBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: nil, action: #selector(toggleDraw))
         
         naviBarItem.leftBarButtonItems = [loadFileBtn, stencilBtn]
-        naviBarItem.rightBarButtonItem = renderBtn
+        naviBarItem.rightBarButtonItem = saveBtn
         
         navigationBar.setItems([naviBarItem], animated: false)
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
@@ -280,9 +280,9 @@ class ViewController: UIViewController, PDFDocumentDelegate {
     private func toggleStencilState(){
         
         //set pencil
-        pencilBtn.tintColor = bToggle ? UIColor.systemYellow : UIColor.systemGray
+        pencilBtn.tintColor = bToggle ? UIColor.white : UIColor.black
         //set marker
-        markerBtn.tintColor = bToggle ? UIColor.systemGray : UIColor.systemYellow
+        markerBtn.tintColor = bToggle ? UIColor.black : UIColor.white
         
         if(bToggle == true){
             pdfDocView.setWidth(width: 2)
