@@ -334,14 +334,14 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         toggleStencilState()
     }
     
-    @IBAction func setWhiteColor(_ sender: UIButton) {
+    @IBAction func setPinkColor(_ sender: UIButton) {
         cToggle = !cToggle
-        toggleColorState(sender: sender, color: UIColor.white)
+        toggleColorState(sender: sender, color: UIColor.systemPink)
     }
     
     @IBAction func setBlueColor(_ sender: UIButton) {
         cToggle = !cToggle
-        toggleColorState(sender: sender, color: UIColor.blue)
+        toggleColorState(sender: sender, color: UIColor.systemBlue)
     }
     
     @IBAction func setBlackColor(_ sender: UIButton) {
@@ -352,13 +352,13 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         cToggle = !cToggle
         toggleColorState(sender: sender, color: UIColor.orange)
     }
-    @IBAction func setRedColor(_ sender: UIButton) {
+    @IBAction func setYellowColor(_ sender: UIButton) {
         cToggle = !cToggle
-        toggleColorState(sender: sender, color: UIColor.red)
+        toggleColorState(sender: sender, color: UIColor.yellow)
     }
     @IBAction func setPurpleColor(_ sender: UIButton) {
         cToggle = !cToggle
-        toggleColorState(sender: sender, color: UIColor.purple)
+        toggleColorState(sender: sender, color: UIColor.systemIndigo)
     }
     @IBAction func setGreenColor(_ sender: UIButton) {
         cToggle = !cToggle
