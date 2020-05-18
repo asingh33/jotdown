@@ -45,6 +45,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         
         scale = self.view.frame.height/1024 + 0.12
         //print("scale - \(scale)")
+        self.pdfDocView.pdfView.autoScales = true
         
         if(self.isFBHidden == false)
         {
@@ -73,7 +74,7 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         self.floatingBarView.layer.cornerRadius = 30
         self.floatingBarView.layer.borderWidth = 5
         self.widthFB = self.floatingBarView.frame.width
-        self.floatingBarView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        self.floatingBarView.backgroundColor = UIColor.darkGray.withAlphaComponent(0.88)
         
     }
     

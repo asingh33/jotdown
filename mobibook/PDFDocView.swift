@@ -33,10 +33,20 @@ class PDFDocView {
         self.pdfView = mobiPDFView()
         self.pdfView.backgroundColor = UIColor.systemGray2
         self.pdfView.translatesAutoresizingMaskIntoConstraints = false
-        self.pdfView.autoScales = false
+        self.pdfView.autoScales = true
         self.pdfView.usePageViewController(true)
         self.pdfView.maxScaleFactor = 3
-        
+        /////////////////////////
+//        pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        pdfView.autoScales = true
+//        self.pdfView.displayMode = .singlePageContinuous
+//        pdfView.displaysPageBreaks = true
+//        pdfView.document = PDFDocument(data:data)
+//        pdfView.maxScaleFactor = 4.0
+//        pdfView.minScaleFactor = 1.15
+//        pdfView.scaleFactor = 1.15
+//        self.view.addSubview(pdfView)
+        /////////////////////////
         self.pdfView.addGestureRecognizer(pdfDrawingGestureRecognizer)
         pdfDrawingGestureRecognizer.drawingDelegate = pdfDrawer
         pdfDrawingGestureRecognizer.isEnabled = true
@@ -110,9 +120,10 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     }
     
     func gestureRecognizerBegan(_ location: CGPoint) {
-        
+        //let nearestpage = pdfView.page(for: location, nearest: true)
         guard let currpage  = pdfView.currentPage else {return}
         currentpage = currpage
+        //print("current page - \(currentpage) Vs nearest page - \(nearestpage)")
         let inPagePoint = pdfView.convert(location, to: currentpage!)
         
         // More realistic color effect but memory consuming
