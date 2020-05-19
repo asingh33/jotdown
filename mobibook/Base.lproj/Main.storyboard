@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sKu-UI-6bu">
-    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <device id="ipad12_9rounded" orientation="landscape" layout="fullscreen" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -10,9 +10,9 @@
         <!--Document Browser View Controller-->
         <scene sceneID="xlq-ua-WEt">
             <objects>
-                <viewController id="sKu-UI-6bu" customClass="DocumentBrowserViewController" customModule="mobibook" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sKu-UI-6bu" customClass="DocumentBrowserViewController" customModule="jotty" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KxH-gH-rqc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="d7j-fe-1sz"/>
@@ -25,19 +25,19 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="mobibook" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="jotty" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84p-6H-Qb0">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="50"/>
                                 <items>
                                     <navigationItem title="Title" id="E6c-WU-gMG"/>
                                 </items>
                             </navigationBar>
                             <view clearsContextBeforeDrawing="NO" alpha="0.88" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Tb8-h1-tTo">
-                                <rect key="frame" x="237" y="-32" width="83" height="544"/>
+                                <rect key="frame" x="1283" y="240" width="83" height="544"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Pd-8m-W0N">
                                         <rect key="frame" x="13" y="33.5" width="57" height="47"/>
@@ -173,7 +173,7 @@
     </scenes>
     <resources>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
-        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="pencil" catalog="system" width="32" height="32"/>
         <image name="pencil.tip" catalog="system" width="99" height="128"/>
     </resources>
 </document>

@@ -383,8 +383,10 @@ class ViewController: UIViewController, PDFDocumentDelegate {
         toggleColorState(sender: sender, color: UIColor.yellow)
     }
     @IBAction func setPurpleColor(_ sender: UIButton) {
-        cToggle = !cToggle
-        toggleColorState(sender: sender, color: UIColor.systemIndigo)
+        //cToggle = !cToggle
+        //toggleColorState(sender: sender, color: UIColor.systemIndigo)
+        
+        self.pdfDocView.undo()
     }
     @IBAction func setGreenColor(_ sender: UIButton) {
         cToggle = !cToggle

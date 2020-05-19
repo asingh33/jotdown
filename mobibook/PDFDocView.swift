@@ -68,6 +68,10 @@ class PDFDocView {
         pdfDrawer.setWidth(width: width)
     }
     
+    func undo(){
+        pdfDrawer.undo()
+    }
+    
         
 }
 
@@ -87,17 +91,17 @@ class PDFDocThumbNailView {
     }
 }
 
-class PDFRenderer {
-    
-    var pdfRenderer: UIGraphicsPDFRenderer!
-    var outputFileURL: URL!
-    
-    init(width: CGFloat, height: CGFloat) {
-        //let pageRect = CGRect(x: 0, y: 0, width: 595.2, height: 841.8)
-        let pageRect = CGRect(x: 0, y: 0, width: width, height: height)
-        pdfRenderer = UIGraphicsPDFRenderer(bounds: pageRect)
-    }
-}
+//class PDFRenderer {
+//
+//    var pdfRenderer: UIGraphicsPDFRenderer!
+//    var outputFileURL: URL!
+//
+//    init(width: CGFloat, height: CGFloat) {
+//        //let pageRect = CGRect(x: 0, y: 0, width: 595.2, height: 841.8)
+//        let pageRect = CGRect(x: 0, y: 0, width: width, height: height)
+//        pdfRenderer = UIGraphicsPDFRenderer(bounds: pageRect)
+//    }
+//}
 
 
 class PageDrawer:  DrawingGestureRecognizerDelegate{
@@ -111,12 +115,61 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
     private var currentpage: PDFPage?
     var pathMap : [ String: UIBezierPath] = [:]
     var inkMap: [String : Ink] = [:]
+    var historyMap = [ String: [Ink : UIBezierPath]]()
+    var annHistory = [String : AnnotationStack]()
     
     func setColor(color: UIColor){
         self.color = color
     }
     func setWidth(width : CGFloat){
         self.width = width
+    }
+    
+//    func undo(){
+//        print("Undo on page: \(currentpage?.label) and history length : \(historyMap[(currentpage?.label)!]?.count)")
+//        var getPath = historyMap[(currentpage?.label)!]?.popLast()
+//        //let getPath = pathMap[(currentpage?.label)!]
+//        //getPath?.removeAllPoints()
+//
+//        for paths in historyMap[(currentpage?.label)!]! {
+//            getPath?.append(paths)
+//        }
+//        //inkAnnotation?.remove(getPath!)
+//
+//
+//
+//        // Now update
+//        //let annotation = inkMap[(currentpage?.label)!]
+//        currentpage?.addAnnotation(inkAnnotation!)
+//    }
+    func undo(){
+        
+        guard let inkPair = annHistory[(currentpage?.label)!]?.pop() else {
+            print("No more Undo Available")
+            return
+        }
+        
+        let topPair = annHistory[(currentpage?.label)!]?.peek()
+        
+        //print("lastpair.path - \(inkPair.path)")
+        //print("lastpair.path - \(topPair?.path)")
+        
+        if topPair == nil {
+            print("top pair empty")
+            currentpage?.removeAnnotation(inkPair.ink!)
+            return
+        }else{
+            print("Removing last annotated path")
+            
+            inkPair.path?.removeAllPoints()
+            
+            currentpage?.removeAnnotation(inkPair.ink!)
+            inkAnnotation = topPair?.ink
+            inkAnnotation?.path = topPair?.path
+            currentpage?.addAnnotation(inkAnnotation!)
+        }
+        
+        
     }
     
     func gestureRecognizerBegan(_ location: CGPoint) {
@@ -140,6 +193,7 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
             //print("in page - \(currentpage.label!)")
         }
         else{
+            
             //For a changed StencilWidth OR StencilColor, create new annotation and path
             if(inkAnnotation?.getStencilColor() != color || inkAnnotation?.getStencilWidth() != width){
                 //print("in page - \(currentpage.label!), created new Annotation")
@@ -166,6 +220,7 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
         let inPagePoint = pdfView.convert(location, to: currentpage!)
         
         path?.addLine(to: inPagePoint)
+        path?.move(to: inPagePoint)
         inkAnnotation?.path = path
         
         currentpage?.addAnnotation(inkAnnotation!)
@@ -176,13 +231,49 @@ class PageDrawer:  DrawingGestureRecognizerDelegate{
         guard currentpage != nil else{return}
         let inPagePoint = pdfView.convert(location, to: currentpage!)
         path?.addLine(to: inPagePoint)
-       
-        inkAnnotation?.path = path
+        path?.move(to: inPagePoint)
+        
+        
+        let newPath = path?.copy() as! UIBezierPath
+        
+        
+        inkAnnotation?.path = newPath
        
         currentpage?.addAnnotation(inkAnnotation!)
-        pathMap[(currentpage?.label)!] = path
+        pathMap[(currentpage?.label)!] = newPath
         inkMap[(currentpage?.label)!] = inkAnnotation
         //path = nil
+        
+        //Add it to the history
+        
+        
+        //if historyMap[(currentpage?.label)!] == nil
+        if annHistory[(currentpage?.label)!] == nil
+        {
+            //let pathArray:[UIBezierPath] = [pathMap[(currentpage?.label)!]!]
+            //var page = historyMap[(currentpage?.label)!]
+            //page![inkAnnotation!] = path!
+            //historyMap[(currentpage?.label)!] = [page]
+            var inkPair = InkPair()
+            inkPair.ink = inkAnnotation
+            inkPair.path = path
+            let stack = AnnotationStack(pair: inkPair)
+            annHistory[(currentpage?.label)!] = stack
+
+        }else{
+            var inkPair = InkPair()
+            inkPair.ink = inkAnnotation
+            inkPair.path = path
+            var stack = annHistory[(currentpage?.label)!]
+            stack?.push(pair: inkPair)
+            annHistory[(currentpage?.label)!] = stack
+            //historyMap[(currentpage?.label)!]!.append(pathMap[(currentpage?.label)!]!)
+            //annHistory[(currentpage?.label)!]?.append(ann!)
+        }
+        //print("Added path to historyMap, count: \(historyMap[(currentpage?.label)!]?.count)")
+        //print("Added path to historyMap, count: \(annHistory[(currentpage?.label)!]?.count)")
+        print("Annotation path count : \(annHistory[(currentpage?.label)!]?.totalElements())")
+        
     }
 }
 
@@ -222,6 +313,7 @@ class Ink: PDFAnnotation{
         localPath.lineCapStyle = .round
         stencilColor.setStroke()
         localPath.stroke(with: CGBlendMode.sourceOut, alpha: 0.4)
+        
         
         //localPath.usesEvenOddFillRule = true
         context.restoreGState()
