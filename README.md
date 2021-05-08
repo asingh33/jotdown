@@ -1,24 +1,20 @@
 # jotdown
 A pdf viewer, annotator project
 
-MIT License
+I had been working on this PDF viewer and annotation app, for one project requirement.
 
-Copyright (c) 2017 Abhishek Singh
+This app is developed in Swift and PDF functionalities require PDFKit library.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+I have implemented following features:
+- Open a PDF file locally stored or on the cloud. 
+  * Password protected PDF handling, included.   
+- Add various annotations on the opened PDF file:
+  * Select, highlight, strikethrough, underline the text.
+  * Colored annotations support.
+- An animated side toolbar with option to choose:
+  * Pen thickness style i.e. like a pen or thick crayon.
+  * Choose different color pallete
+  * Temporary Undo functionality on clicking the 'purple' color. It was a placeholder functionality, while I was developing the app.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+
