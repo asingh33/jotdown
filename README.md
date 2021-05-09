@@ -17,4 +17,4 @@ I have implemented following features:
   * Temporary Undo functionality on clicking the 'purple' color. It was a placeholder functionality, while I was developing the app.
 
 
-
+<img src="https://github.com/asingh33/jotdown/blob/master/jotty.gif" width="438" height="448">
